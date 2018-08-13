@@ -1,0 +1,203 @@
+/* Base structure */
+html {
+	height: 100%;
+	font-family: Lato;
+}
+
+body {
+  height: 100vh;
+  /*min-height: 100%;*/ /*Fallback in case height: 100vh; doesn't work*/
+  position: relative;
+  margin: 0;
+}
+
+.background {
+  position: absolute;
+  background: url(https://images5.alphacoders.com/414/414113.jpg) no-repeat center center fixed;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  filter: blur(2px);
+  z-index: -5
+}
+
+/* Link tags */
+.active {
+  color: #30a9ed; 
+}
+
+a, .fa-bars {
+  color: #fff;
+  font-weight: 700;
+}
+
+/* Navbar + Navbar specific things */
+.nav-link {
+  text-transform: uppercase;
+}
+
+.navbar-brand {
+  padding-right: 20px;
+}
+
+/* Modal styling */
+#history {
+  top: 2vh;
+}
+
+#about, #contact {
+  top: 25vh;
+}
+
+#contact {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.modal a {
+  color: black;
+}
+
+/* Header styling */
+.kasen-header {
+  font-size: 1.6rem;
+  padding-bottom: 4.5rem; 
+}
+
+/* "Main body" styling (the div with logo + music player */
+.kasen-main {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 70vh;
+}
+
+/* Hide Marisa when the browser window is 1007px or smaller (so she doesn't fall off!) */
+@media only screen and (max-width: 1007px) {
+	#marisa {
+		display: none;
+	}
+
+  #navbarSupportedContent{
+    background: linear-gradient(120deg,#212330,transparent 80%),linear-gradient(100deg,#372c46,transparent 70%),#1d1f2b;
+  }
+
+  #navbarSupportedContent .nav-link{
+    text-transform: none;
+    font-weight: 400;
+  }
+}
+
+@media only screen and (max-height: 350px) {
+	.kasen-footer {
+		display: none;
+	}
+}
+
+@media only screen and (max-width: 400px) {
+	.kasen-footer {
+		display: none;
+	}
+
+}
+
+/* Logo styling */
+.logo {
+  text-align: center;
+}
+
+#marisa {
+  position: relative;
+  z-index: 2;
+  left: 350px;
+  top: 20px;
+}
+
+/* Music player styling */
+.player {
+  border-radius: 15px;
+  text-align: center;
+  font-size: 1.6rem;
+  color: #fff;
+  background: linear-gradient(120deg,#212330,transparent 80%),linear-gradient(100deg,#372c46,transparent 70%),#1d1f2b;
+}
+
+#artist {
+  padding-top: 10px;
+  padding-left: 15px;
+  margin-bottom: 0.5rem;
+  text-align: left;
+  font-size: 1.3rem;
+  color: #ff015b;
+  white-space: nowrap;
+}
+
+#now-playing {
+  margin-bottom: 0.5rem;
+  padding-left: 13px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* Music player button styling */
+#playPause, #play, #pause, #mute {
+  margin-bottom: 10px;
+  background: linear-gradient(120deg,#212330,transparent 50%),linear-gradient(100deg,#372c46,transparent 30%),#1d1f2b;
+  border: none;
+  color: white;
+}
+
+/* Volume slider styling*/
+.slider {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+  height: 8px;
+  width: 140px;
+  border-radius: 5px;
+  bottom: 6px;
+  background: linear-gradient(to right, #ff015b 0%, #ff015b 70%, #fff 70%, #fff 100%);
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: #fffff0;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: #fffff0;
+    cursor: pointer;
+}
+
+/* Footer styling (fixed sticky) */
+.kasen-footer {
+	font-size: 1.6rem;
+	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: rgba(255,255,255,0.5);
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 60px;
+	line-height: 60px;
+}
+
+/* Having a margin-bottom > 0 will push it outside the HTML */
+.kasen-footer p {
+	margin: 0;
+}
+
+.kasen-footer #credits, .kasen-footer #author {
+	color: #d7fffa;
+	font-weight: 700;
+}

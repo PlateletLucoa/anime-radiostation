@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Meta tags -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit="no">
+
+	<title>Anone, anone! ~</title>
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+	<!-- Font Awesome, using it for icons -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+	<!-- Lato Font, custom text font -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+
+	<!-- Stylesheet for the webpage and the things in it (eg. music player buttons) -->
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+<!-- Background, div class so it can be transparent w/ filter -->
+<div class="background"></div>
+
+<!-- Header element including navbar -->
+<div class="kasen-header">
+	<nav class="navbar navbar-expand-lg fixed-top bg-transparent">
+		<div class="container">
+			<a class="navbar-brand" href="#">
+	  			<i id="homeBtn" class="fas fa-headphones fa-2x"></i>
+	  		</a>
+	  		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	    		<i id="menuBtn" class="fas fa-bars fa-lg"></i>
+	  		</button>
+
+	  		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+	    		<ul class="navbar-nav mr-auto">
+	      			<li class="nav-item">
+	        			<a class="nav-link active" href="#">Music <span class="sr-only">(current)</span></a>
+	      			</li>
+	      			<li class="nav-item">
+	        			<a class="nav-link" href="#history" data-toggle="modal" data-target="#history">History</a>
+	      			</li>
+	      			<li class="nav-item">
+	        			<a class="nav-link" href="#about" data-toggle="modal" data-target="#about">About</a>
+	      			</li>
+	      			<li class="nav-item">
+	        			<a class="nav-link" href="#contact" data-toggle="modal" data-target="#contact">Contact</a>
+	      			</li>
+	      			<li class="nav-item">
+	        			<a class="nav-link" href="https://discord.gg/XaPUXvK" target="_blank">Discord</a>
+	      			</li>
+	    		</ul>
+	    		<ul class="navbar-nav navbar-right ml-auto">
+	    			<li><a class="nav-link" href="#">Login</a></li>
+	    		</ul>
+	  		</div>
+		</div>
+	</nav>
+</div>
+
+<!-- "History"-section Modal -->
+<div id="history" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		
+		<!-- Modal content -->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">The background of this web application</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+				<p>It all started one summer when a friend of mine introduced me to a radio website (web application, to be specific) called <a href="https://listen.moe" target="_blank">LISTEN.moe</a></p>
+
+				<p>I thought to myself, "how hard is it really to create a website like this?". So I tried to replicate it by myself and this is the result, back then I thought it would be easy.  </p>
+
+				<p>Wrong. I was so, so wrong on that. I had no idea it would take hours and hours of work.</p>
+
+				<p>Sure, getting the website to play music was easy enough but making the music player correctly synched with server data (music title, duration etc. , we're playing audio stream mind you, so the inbuilt HTML audio player sees it as a single audio track that runs indefinitely) caused me a lot of headaches. Even now it has a few bugs! But the end result was worth every moment I spent struggling with this project.</p>
+
+				<p>Before I started on creating this web application, I knew only very basic HTML and CSS. Doing this exposed me to a lot of things I didn't know about, especially manipulating the DOM with Javascript and Jquery, and connecting to APIs for retrieving and to send data. Even though I learned a lot from it, this also made me realize that there's so much I don't know about as well. Hell, when I look at the code now I see so much stuff I could write more efficiently (I even spotted some bad practices afterwards >_<). You really never stop learning, do you.</p>
+
+				<p>Thank you for reading to the end! As closing words, I hope to see you again if I get another chance to make an another web application. Enjoy the radio tunes!</p>
+
+				<p><a href="https://twitter.com/tihyung1" target="_blank" style="font-size: 1.2rem;">Lucoa</a></p> 
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- "About"-section modal -->
+<div id="about" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		
+		<!-- Modal content -->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">About this web application</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+				<p>This is a web application that functions as a radio website. It plays a raw audio stream provided by <a href="https://listen.moe" target="_blank">LISTEN.moe</a> and gets JSON data about the playing song's name, artist, duration etc. from their WebSocket. Usage of their API has been deprecated on our end to keep our music player simple. For more details about the inner workings, you can visit their documentation page.</p>
+
+				<p>I don't claim any copyright and neither is it in my intention to profit from this work. I made this for educational purposes and private use, if there are any problems please contact me so we can work it out.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- "Contact"-section modal -->
+<div id="contact" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		
+		<!-- Modal content -->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Contact me</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+				<p>Feel free to reach out at, </p>
+				<p><a href="https://discordapp.com" target="_blank">Discord</a> (thienotorious#9256) | <a href="mailto:danterev@hotmail.com" target="_blank">Email</a> | <a href="https://twitter.com/tihyung1" target="_blank">Twitter</a></p>
+				<p>Email just in case the link doesn't work: danterev@hotmail.com</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Div containing the logo and music player, the "main" part of the website -->
+<div class="kasen-main">
+	<div class="container">
+		<div class="logo">
+			<img id="marisa" src="https://orig00.deviantart.net/1308/f/2015/007/d/1/touhou___kirisame_marisa__3__by_johnprestongc-d8d0xuz.png" style="width: 200px; height: 200px;">
+		</div>
+
+		<div class="player">
+			<p id="artist">No data</p> <!-- Current artist -->
+			<p id="now-playing">No data</p> <!-- Current song playing -->
+
+			<!-- Music player progressbar, it has inline-styling so we can manipulate it with Javascript -->
+			<div id="progress" style="height: 10px; width: 0%; background: #ff015b; margin: 10px 0px 10px 0px;"></div>
+				
+			<!-- The audio source aka the raw stream from LISTEN.moe -->
+			<audio preload="none" id="music-player">
+				<source id="audioSource" src="https://listen.moe/stream" type="audio/ogg; codecs=vorbis">
+			</audio>
+
+			<!-- Custom audio controls for the music player -->
+			<div class="music-player-controls">
+
+				<!-- Play/pause button -->
+				<button id ="playPause" onclick ="playPause()"><i id="playPauseIcon" class="fas fa-play"></i></button>
+
+				<!-- Mute button -->
+				<button id="mute" onclick="mute_vol()"><i id="muteIcon" class="fas fa-volume-up"></i></button>
+
+				<!-- Volume control -->
+				<input id="volumeSlider" class="slider" type="range" oninput="change_vol(); saveValue(this);" min="0" max="1" step="0.01" value="0.7">
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Footer -->
+<div class="kasen-footer">
+	<p>A <a id="credits" href="https://listen.moe" target="_blank">LISTEN.moe</a> clone, by <a id="author" href="https://twitter.com/tihyung1" target="_blank">Lucoa</a></p>
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+<!-- JQuery code for changing the navbar icon sizes and coloring the range of the volume slider -->
+<script>
+	$(window).on('resize', function() {
+  		var win = $(this);
+  		// 1007px is the breakpoint for our navbar collapse
+  		if (win.width() < 1008) {
+  			$('#homeBtn').removeClass('fa-2x');
+    		$('#homeBtn').addClass('fa-3x');
+
+    		$('#menuBtn').removeClass('fa-lg');
+    		$('#menuBtn').addClass('fa-3x');
+  		} else {
+    		$('#homeBtn').removeClass('fa-3x');
+    		$('#homeBtn').addClass('fa-2x');
+
+    		$('#menuBtn').removeClass('fa-3x');
+    		$('#menuBtn').addClass('fa-lg');
+  		}
+	});
+
+	$('#volumeSlider').on('input', function(){
+		var string1 = "linear-gradient(to right, #ff015b 0%, #ff015b ";
+		var string2 = "%, #fff ";
+		var string3 = "%, #fff 100%)";
+		var combinedString = string1 + this.value*100 + string2 + this.value*100 + string3;
+		$(this).css("background", combinedString);
+	});
+</script>
+
+<!-- Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+<!-- Bootstrap.js -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+<!-- Javascript for getting data from LISTEN.moe's WebSocket and handling the music player  -->
+<script src="websocket.js"></script>
+
+</body>
+</html>
