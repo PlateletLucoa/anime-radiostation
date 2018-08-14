@@ -99,7 +99,7 @@ a, .fa-bars {
   }
 }
 
-@media only screen and (max-height: 420px) and (max-width: 1007px) {
+@media only screen and (max-height: 420px) and (max-width: 1650px) {
 	body .kasen-main {
 		height: 30vh;
 	}
