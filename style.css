@@ -110,6 +110,10 @@ a, .fa-bars {
 		top: 50px;
 		left: 160px;
 	}
+	
+	body .kasen-main {
+		height: 50vh;
+	}
 }
 
 @media only screen and (max-height: 350px) {
