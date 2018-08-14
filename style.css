@@ -105,12 +105,7 @@ a, .fa-bars {
   }
 }
 
-@media only screen and (max-height: 420px) {
-	.logo #kanna {
-		top: 50px;
-		left: 160px;
-	}
-	
+@media only screen and (max-height: 420px) and (max-width: 1007px) {
 	body .kasen-main {
 		height: 50vh;
 	}
