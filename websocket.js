@@ -124,6 +124,7 @@ function startplayer(){
 		audioSourceElement.setAttribute("type", "audio/mp3");
 		audioSourceElement.removeAttribute("codecs");
 		player.setAttribute("preload", "none");
+		player.load();
 	}
 }
 
