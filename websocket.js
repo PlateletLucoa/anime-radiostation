@@ -121,8 +121,9 @@ function startplayer(){
 	if(iOS || iOSSafari){
 		originalSourceUrl = "https://listen.moe/fallback";
 		audioSourceElement.setAttribute("src", originalSourceUrl);
-		audioSourceElement.setAttribute("type", "audio/mpeg");
+		audioSourceElement.setAttribute("type", "audio/mp3");
 		audioSourceElement.removeAttribute("codecs");
+		player.setAttribute("preload", "none");
 	}
 }
 
