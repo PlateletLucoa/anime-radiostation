@@ -130,6 +130,8 @@ a, .fa-bars {
   font-size: 1.3rem;
   color: #ff015b;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #now-playing {
@@ -137,6 +139,8 @@ a, .fa-bars {
   padding-left: 13px;
   text-align: left;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Music player button styling */
