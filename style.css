@@ -72,11 +72,15 @@ a, .fa-bars {
 	height: 70vh;
 }
 
-/* Hide Marisa when the browser window is 1007px or smaller (so she doesn't fall off!) */
+/* Marisa falls off when width < 1007px! */
 @media only screen and (max-width: 1007px) {
-	#marisa {
+	/*#marisa {
 		display: none;
-	}
+	}*/
+
+  .logo #kanna {
+    left: 180px;
+  }
 
   #navbarSupportedContent{
     background: linear-gradient(120deg,#212330,transparent 80%),linear-gradient(100deg,#372c46,transparent 70%),#1d1f2b;
@@ -88,17 +92,23 @@ a, .fa-bars {
   }
 }
 
+/*Lower than 525px and Kanna takes up too much space with her cute dance :sob:*/
+@media only screen and (max-width: 525px) {
+  #kanna {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .kasen-footer {
+    display: none;
+  }
+}
+
 @media only screen and (max-height: 350px) {
 	.kasen-footer {
 		display: none;
 	}
-}
-
-@media only screen and (max-width: 400px) {
-	.kasen-footer {
-		display: none;
-	}
-
 }
 
 /* Logo styling */
@@ -106,11 +116,18 @@ a, .fa-bars {
   text-align: center;
 }
 
-#marisa {
+/*#marisa {
   position: relative;
   z-index: 2;
   left: 350px;
   top: 20px;
+}*/
+
+#kanna {
+  position: relative;
+  z-index: 2;
+  left: 370px;
+  top: 100px;
 }
 
 /* Music player styling */
