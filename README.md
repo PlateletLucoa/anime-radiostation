@@ -5,6 +5,9 @@ Confirmed working on Chrome, Android (with Chrome as browser) and iPhone (finall
 
 Currently doesn't work on Internet Explorer. It runs on Microsoft Edge and Firefox albeit very buggy, i.e. the progressbar doesn't behave properly. You can play audio on the latter two but the play/pause button can randomly get stuck.
 
-Firefox-specific: Volume slider color is off. 
-iOS-specific: No audio plays when you press play, and once you've pressed play the button gets stuck. Volume slider doesn't work.
-Internet Explorer specific: JavaScript doesn't run correctly, no WebSocket data is shown, buttons doesn't work (dropdown menu strangely works).
+Known issues:
+Progress bar is always at 100% when playing on iOS. This is because we're running on the fallback audio stream which doesn't have a correct currentTime attribute so we can't calculate the progress bar percentage. Original audio stream had metadata for this. I can fix this if there's a way to play Vorbis or Opus OGG format audio on mobile Safari browser. Lazy fix would be to run the original stream (hidden from the user) together with the fallback but that would cause performance issues.
+
+Firefox-specific: Volume slider color is off.\  
+iOS-specific (and maybe on other mobile devices?): Volume slider doesn't work.\  
+Internet Explorer specific: JavaScript doesn't run correctly, no WebSocket data is shown, buttons doesn't work (dropdown menu strangely works).\ 
