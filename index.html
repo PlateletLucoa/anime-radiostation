@@ -139,10 +139,10 @@
 			<p id="now-playing">No data</p> <!-- Current song playing -->
 
 			<!-- Music player progressbar, it has inline-styling so we can manipulate it with Javascript -->
-			<div id="progress" style="height: 10px; width: 0%; background: #ff015b; margin: 10px 0px 10px 0px;"></div>
+			<div id="progress" style="height: 10px; width: 0%; border-radius: 0px 5px 5px 0px; background: #ff015b; margin: 10px 0px 10px 0px;"></div>
 				
 			<!-- The audio source aka the raw stream from LISTEN.moe -->
-			<audio preload="none" id="music-player">
+			<audio id="music-player">
 				<source id="audioSource" src="https://listen.moe/stream" type="audio/ogg; codecs=vorbis">
 			</audio>
 
