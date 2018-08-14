@@ -120,8 +120,8 @@ function startplayer(){
 	// if iOS then we'll have to use the fallback audio stream as OGG format is not supported there
 	if(iOS || iOSSafari){
 		originalSourceUrl = "https://listen.moe/fallback";
-		audioSourceElement.getAttribute("src", originalSourceUrl);
-		audioSourceElement.getAttribute("type", "audio/mpeg");
+		audioSourceElement.setAttribute("src", originalSourceUrl);
+		audioSourceElement.setAttribute("type", "audio/mpeg");
 		audioSourceElement.removeAttribute("codecs");
 	}
 }
