@@ -97,7 +97,9 @@ a, .fa-bars {
   #kanna {
     display: none;
   }
-  
+}
+
+@media only screen and (max-height: 420px) and (max-width: 525px) {
   body .kasen-main {
     height: 70vh;
   }
