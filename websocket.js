@@ -85,6 +85,15 @@ const socket = new SocketConnection();
 // Wait until document has finished loading before initializing our variables
 document.addEventListener("DOMContentLoaded", function() { startplayer(); }, false);
 
+// Variables for checking if user navigated from iOS or iOS-Safari
+var ua = window.navigator.userAgent;
+var iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
+var webkit = !!ua.match(/WebKit/i);
+var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
+
+// URL link to the raw audio stream, declared outside function so it becomes global
+var OriginalSourceUrl = "";
+
 function startplayer(){
 	player = document.getElementById("music-player");
 
@@ -106,7 +115,15 @@ function startplayer(){
 
 	// Used for stopping and resuming the audio stream
 	audioSourceElement = document.querySelector("#audioSource");
-	var originalSourceUrl = "https://listen.moe/stream";
+	originalSourceUrl = "https://listen.moe/stream";
+
+	// if iOS then we'll have to use the fallback audio stream as OGG format is not supported there
+	if(iOS || iOSSafari){
+		originalSourceUrl = "https://listen.moe/fallback";
+		audioSourceElement.getAttribute("src", originalSourceUrl);
+		audioSourceElement.getAttribute("type", "audio/mpeg");
+		audioSourceElement.removeAttribute("codecs");
+	}
 }
 
 // Music player functions
@@ -122,7 +139,7 @@ function playPause() {
 
 function play_aud() {
 	if(!audioSourceElement.getAttribute("src")){
-		audioSourceElement.setAttribute("src", "https://listen.moe/stream");
+		audioSourceElement.setAttribute("src", originalSourceUrl);
 		player.load();
 	}
 	player.play();
@@ -178,9 +195,10 @@ function getSavedValue(v) {
 var updateInterval = setInterval(playerHeartbeat, 50);
 
 function playerHeartbeat() {
+
 	// If currentSongDuration isn't defined yet then the music player hasn't started playing (or hasn't fully loaded), 
 	// currentSongDuration === 0 means that the current song has an unknown length
-	if(currentSongDuration !== undefined && !(currentSongDuration === 0)){
+	if(!(iOS || iOSSafari) && currentSongDuration !== undefined && !(currentSongDuration === 0)){
 
 		// Calculate the percentage of a songs duration
 		var num = (player.currentTime / tempSongDuration) * 100;
