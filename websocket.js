@@ -196,11 +196,26 @@ function getSavedValue(v) {
 // Code for the progressbar to work below
 var updateInterval = setInterval(playerHeartbeat, 50);
 
+var unknownSongPlayed = false;
+
 function playerHeartbeat() {
 
 	// If currentSongDuration isn't defined yet then the music player hasn't started playing (or hasn't fully loaded), 
 	// currentSongDuration === 0 means that the current song has an unknown length
 	if(!(iOS || iOSSafari) && currentSongDuration !== undefined && !(currentSongDuration === 0)){
+
+		// Reset if an song with unknown length (currentSongDuration === 0) finished playing
+		if(unknownSongPlayed){
+			document.getElementById("progress").style.width = "0%";
+			pause_aud();
+			player.currentTime = 0;
+			setTimeout(function() {
+				play_aud();
+			}, 150);
+			tempSongDuration = currentSongDuration;
+		}
+
+		unknownSongPlayed = false;
 
 		// Calculate the percentage of a songs duration
 		var num = (player.currentTime / tempSongDuration) * 100;
@@ -227,8 +242,10 @@ function playerHeartbeat() {
 			}, 150);
 			tempSongDuration = currentSongDuration;
 		}
+
 	// Error handling in case something unexpected happens
 	}else{
 		document.getElementById("progress").style.width = "100%";
+		unknownSongPlayed = true;
 	}
 }
