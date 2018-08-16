@@ -94,7 +94,30 @@ var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
 // URL link to the raw audio stream, declared outside function so it becomes global
 var OriginalSourceUrl = "";
 
+// Functions for the clock to work
+// function startTime() {
+// 	var today = new Date();
+// 	var h = today.getHours();
+// 	var m = today.getMinutes();
+// 	var s = today.getSeconds();
+// 	m = checkTime(m);
+// 	s = checkTime(s);
+// 	document.getElementById('clock').innerHTML = h + ":" + m + ":" + s;
+// 	var t = setTimeout(startTime, 500);
+// }
+
+// function checkTime(i) {
+// 	if (i < 10) {
+// 		i = '0' + i; // add a zero in front of single digit numbers
+// 	}
+// 	return i;
+// }
+
 function startplayer(){
+
+	// Start the clock
+	// startTime();
+
 	player = document.getElementById("music-player");
 
 	// Music player controls
@@ -110,6 +133,7 @@ function startplayer(){
 	playPauseIcon = document.getElementById("playPauseIcon");
 
 	// Used by the music progressbar
+	unknownSongPlayed = false;
 	progressBar = document.getElementById("progress");
 	tempSongDuration = currentSongDuration;
 
@@ -117,7 +141,7 @@ function startplayer(){
 	audioSourceElement = document.querySelector("#audioSource");
 	originalSourceUrl = "https://listen.moe/stream";
 
-	// if iOS then we'll have to use the fallback audio stream as OGG format is not supported there
+	// If iOS then we'll have to use the fallback audio stream as OGG format is not supported there
 	if(iOS || iOSSafari){
 		originalSourceUrl = "https://listen.moe/fallback";
 		audioSourceElement.setAttribute("src", originalSourceUrl);
@@ -125,6 +149,14 @@ function startplayer(){
 		audioSourceElement.removeAttribute("codecs");
 		player.setAttribute("preload", "none");
 		player.load();
+	}
+
+	// Start the progressbar function 
+	updateInterval = setInterval(playerHeartbeat, 250);
+	// If iOS then we don't need to run progressbar function as it doesn't work with fallback audio
+	if(iOS || iOSSafari){
+		document.getElementById("progress").style.width = "100%";
+		clearInterval(updateInterval);
 	}
 }
 
@@ -193,30 +225,31 @@ function getSavedValue(v) {
 	return localStorage.getItem(v);
 }
 
-// Code for the progressbar to work below
-var updateInterval = setInterval(playerHeartbeat, 50);
+// Function for resetting the audio stream so we're in sync with the radio
+function resetAudioStream() {
+	progressBar.style.width = "0%";
+	pause_aud();
+	player.currentTime = 0;
+	setTimeout(function() {
+		play_aud();
+	}, 150);
+}
 
-var unknownSongPlayed = false;
-
+// Progressbar update function and player-to-radio synchronization (most important function!)
 function playerHeartbeat() {
 
 	// If currentSongDuration isn't defined yet then the music player hasn't started playing (or hasn't fully loaded), 
 	// currentSongDuration === 0 means that the current song has an unknown length
-	if(!(iOS || iOSSafari) && currentSongDuration !== undefined && !(currentSongDuration === 0)){
+	if(currentSongDuration !== undefined && !(currentSongDuration === 0)){
 
 		// Reset if an song with unknown length (currentSongDuration === 0) finished playing AND the music player is currently playing
 		// Remove the playerIsPlaying check to enable autoplay (have no idea why this works)
 		if(unknownSongPlayed && player.currentTime > 0 && !player.paused && !player.ended && player.readyState > 2){
-			// Adding a 5 second delay before reloading audio to make transition smoother
+			// Adding a 3 second delay before reloading audio to make transition smoother (needs finetuning!)
 			setTimeout(function() {
-				document.getElementById("progress").style.width = "0%";
-				pause_aud();
-				player.currentTime = 0;
-				setTimeout(function() {
-					play_aud();
-				}, 150);
+				resetAudioStream();
 				tempSongDuration = currentSongDuration;
-			}, 5000);
+			}, 3000);
 		}
 
 		unknownSongPlayed = false;
@@ -228,28 +261,18 @@ function playerHeartbeat() {
 
 		// Reset if we go over or reach the end of a songs duration 
 		if(player.currentTime > currentSongDuration && currentSongDuration === tempSongDuration){
-			document.getElementById("progress").style.width = "0%";
-			pause_aud();
-			player.currentTime = 0;
-			setTimeout(function() {
-				play_aud();
-			}, 150);
+			resetAudioStream();
 		}
 
 		// Reset if song duration changes, which means a new song is playing, AND when the previous song has fully played out
 		if(tempSongDuration !== currentSongDuration && player.currentTime >= tempSongDuration){
-			document.getElementById("progress").style.width = "0%";
-			pause_aud();
-			player.currentTime = 0;
-			setTimeout(function() {
-				play_aud();
-			}, 150);
+			resetAudioStream();
 			tempSongDuration = currentSongDuration;
 		}
-
+	}
 	// Error handling in case something unexpected happens
-	}else{
-		document.getElementById("progress").style.width = "100%";
+	else{
+		progressBar.style.width = "100%";
 		unknownSongPlayed = true;
 	}
 }
