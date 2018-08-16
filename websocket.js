@@ -204,15 +204,19 @@ function playerHeartbeat() {
 	// currentSongDuration === 0 means that the current song has an unknown length
 	if(!(iOS || iOSSafari) && currentSongDuration !== undefined && !(currentSongDuration === 0)){
 
-		// Reset if an song with unknown length (currentSongDuration === 0) finished playing
+		// Reset if an song with unknown length (currentSongDuration === 0) finished playing AND the music player is currently playing
+		// Remove the playerIsPlaying check to enable autoplay (have no idea why this works)
 		if(unknownSongPlayed && player.currentTime > 0 && !player.paused && !player.ended && player.readyState > 2){
-			document.getElementById("progress").style.width = "0%";
-			pause_aud();
-			player.currentTime = 0;
+			// Adding a 5 second delay before reloading audio to make transition smoother
 			setTimeout(function() {
-				play_aud();
-			}, 150);
-			tempSongDuration = currentSongDuration;
+				document.getElementById("progress").style.width = "0%";
+				pause_aud();
+				player.currentTime = 0;
+				setTimeout(function() {
+					play_aud();
+				}, 150);
+				tempSongDuration = currentSongDuration;
+			}, 5000);
 		}
 
 		unknownSongPlayed = false;
