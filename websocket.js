@@ -205,7 +205,7 @@ function playerHeartbeat() {
 	if(!(iOS || iOSSafari) && currentSongDuration !== undefined && !(currentSongDuration === 0)){
 
 		// Reset if an song with unknown length (currentSongDuration === 0) finished playing
-		if(unknownSongPlayed){
+		if(unknownSongPlayed && player.currentTime > 0 && !player.paused && !player.ended && player.readyState > 2){
 			document.getElementById("progress").style.width = "0%";
 			pause_aud();
 			player.currentTime = 0;
