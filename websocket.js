@@ -147,7 +147,7 @@ function startplayer(){
 		audioSourceElement.setAttribute("src", originalSourceUrl);
 		audioSourceElement.setAttribute("type", "audio/mp3");
 		audioSourceElement.removeAttribute("codecs");
-		player.setAttribute("preload", "none");
+		player.setAttribute("preload", "auto");
 		player.load();
 	}
 
