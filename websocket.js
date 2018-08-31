@@ -44,11 +44,18 @@ class SocketConnection {
 				const data = response.d;
 
 				// Set artist and song title in the HTML
-				document.getElementById("now-playing").innerHTML = data.song.title;
-				if(data.song.artists[0].nameRomaji != null){
-					document.getElementById("artist").innerHTML = data.song.artists[0].nameRomaji;
+				if(data.song.title != null){
+					document.getElementById("now-playing").innerHTML = data.song.title;
 				}else{
+					document.getElementById("now-playing").innerHTML = "No data";
+				}
+				
+				if(data.song.artists[0].nameRomaji !== null){
+					document.getElementById("artist").innerHTML = data.song.artists[0].nameRomaji;
+				}else if(data.song.artists[0].name !== null){
 					document.getElementById("artist").innerHTML = data.song.artists[0].name;
+				}else{
+					document.getElementById("artist").innerHTML = "No data";
 				}
 
 				// Change website title when a song plays
@@ -94,29 +101,7 @@ var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
 // URL link to the raw audio stream, declared outside function so it becomes global
 var OriginalSourceUrl = "";
 
-// Functions for the clock to work
-// function startTime() {
-// 	var today = new Date();
-// 	var h = today.getHours();
-// 	var m = today.getMinutes();
-// 	var s = today.getSeconds();
-// 	m = checkTime(m);
-// 	s = checkTime(s);
-// 	document.getElementById('clock').innerHTML = h + ":" + m + ":" + s;
-// 	var t = setTimeout(startTime, 500);
-// }
-
-// function checkTime(i) {
-// 	if (i < 10) {
-// 		i = '0' + i; // add a zero in front of single digit numbers
-// 	}
-// 	return i;
-// }
-
 function startplayer(){
-
-	// Start the clock
-	// startTime();
 
 	player = document.getElementById("music-player");
 
