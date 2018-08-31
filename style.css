@@ -72,6 +72,21 @@ a, .fa-bars {
 	height: 70vh;
 }
 
+/*Styling of the SVG logo moved up to avoid conflict with media queries*/
+.logo svg {
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  max-width: 500px;
+  margin: 0;
+  padding: 0;
+}
+
 /* Marisa falls off when width < 1007px! */
 @media only screen and (max-width: 1007px) {
 	/*#marisa {
@@ -94,6 +109,11 @@ a, .fa-bars {
 
 /*Lower than 525px and Kanna takes up too much space with her cute dance :sob:*/
 @media only screen and (max-width: 525px) {
+  .logo svg {
+    position: relative;
+    top: 40px;
+  }
+
   #kanna {
     display: none;
   }
@@ -118,6 +138,10 @@ a, .fa-bars {
 }
 
 @media only screen and (max-height: 350px) {
+  .logo svg {
+    display: none;
+  }
+
 	.kasen-footer {
 		display: none;
 	}
