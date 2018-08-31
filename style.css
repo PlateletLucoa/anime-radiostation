@@ -123,6 +123,10 @@ a, .fa-bars {
 	body .kasen-main {
 		height: 30vh;
 	}
+  
+  .logo svg {
+    display: none;
+  }
 }
 
 @media only screen and (max-height: 420px) and (max-width: 525px) {
