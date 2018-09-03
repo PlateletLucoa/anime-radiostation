@@ -99,7 +99,6 @@ class SocketConnection {
 						}
 					}
 					artists = artists.substr(0, artists.length-2);
-					artistLbl.innerHTML = artists;
 				}else{
 					if(data.song.artists[0].nameRomaji !== undefined && data.song.artists[0].nameRomaji !== null){
 						artists = data.song.artists[0].nameRomaji;
@@ -108,8 +107,8 @@ class SocketConnection {
 					}else{
 						artists = "No data";
 					}
-					artistLbl.innerHTML = artists;
 				}
+				artistLbl.innerHTML = artists;
 				
 				// Change website title to include current playing song + artist
 				if(song !== "No data" && artists !== "No data"){
