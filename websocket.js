@@ -43,36 +43,81 @@ class SocketConnection {
 
 				const data = response.d;
 
-				// Set artist and song title in the HTML
-				if(data.song.title != null){
-					document.getElementById("now-playing").innerHTML = data.song.title;
-				}else{
-					document.getElementById("now-playing").innerHTML = "No data";
-				}
-				
-				if(data.song.artists[0].nameRomaji !== null){
-					document.getElementById("artist").innerHTML = data.song.artists[0].nameRomaji;
-				}else if(data.song.artists[0].name !== null){
-					document.getElementById("artist").innerHTML = data.song.artists[0].name;
-				}else{
-					document.getElementById("artist").innerHTML = "No data";
-				}
-
-				// Change website title when a song plays
-				if(data.song.title !== null && data.song.artists[0].nameRomaji !== null){
-					document.title = data.song.title + " by " + data.song.artists[0].nameRomaji + " | Anone, anone! ~";
-				}else if(data.song.title !== null && data.song.artists[0].name !== null){
-					document.title = data.song.title + " by " + data.song.artists[0].name + " | Anone, anone! ~";
-				}else if(data.song.title !== null){
-					document.title = data.song.title + " | Anone, anone! ~";
-				}else{
-					document.title = "Anone, anone! ~";
-				}
-
 				// Initialize variables for the progressbar to work
 				currentSongDuration = data.song.duration;
 				if(tempSongDuration === undefined){
 					tempSongDuration = data.song.duration;
+				}
+
+				// Variables for the tags of current song playing and artist name
+				var nowPlaying = document.getElementById("now-playing");
+				var artistLbl = document.getElementById("artist");
+
+				// Code for updating the song title
+				var hasSongTitle = data.song.title !== undefined && data.song.title !== null;
+				var song = "";
+				if(hasSongTitle){
+					song = data.song.title;
+
+					// Experimental, I'm not 100% sure how data.song.sources work. 
+					// UPDATE: sources is an array with Objects, each object have id, name, nameRomaji and image attributes 
+					if(data.song.sources.length > 0){
+						song += " [";
+						for(var i = 0; i < data.song.sources.length; i++){
+							var hasSongSourceNameRomaji = data.song.sources[i].nameRomaji !== undefined && data.song.sources[i].nameRomaji !== null;
+							var hasSongSourceName = data.song.sources[i].name !== undefined && data.song.sources[i].name !== null;
+
+							if(hasSongSourceNameRomaji){
+								song += data.song.sources[i].nameRomaji + ", ";
+							}else if(hasSongSourceName){
+								song += data.song.sources[i].name + ", ";
+							}else{
+								song += "No data" + ", ";
+							}
+						}
+						song = song.substr(0, song.length-2);
+						song += "]";
+					}
+				}else{
+					song = "No data";
+				}
+				nowPlaying.innerHTML = song;
+
+				// Code for updating the artist name 
+				var artists = "";
+				if(data.song.artists.length > 1){
+					for(var i = 0; i < data.song.artists.length; i++){
+						var hasArtistNameRomaji = data.song.artists[i].nameRomaji !== undefined && data.song.artists[i].nameRomaji !== null;
+						var hasArtistName = data.song.artists[i].name !== undefined && data.song.artists[i].name !== null;
+
+						if(hasArtistNameRomaji){
+							artists += data.song.artists[i].nameRomaji + ", ";
+						}else if(hasArtistName){
+							artists += data.song.artists[i].name + ", ";
+						}else{
+							artists += "No data" + ", ";
+						}
+					}
+					artists = artists.substr(0, artists.length-2);
+					artistLbl.innerHTML = artists;
+				}else{
+					if(data.song.artists[0].nameRomaji !== undefined && data.song.artists[0].nameRomaji !== null){
+						artists = data.song.artists[0].nameRomaji;
+					}else if(data.song.artists[0].name !== undefined && data.song.artists[0].name !== null){
+						artists = data.song.artists[0].name;
+					}else{
+						artists = "No data";
+					}
+					artistLbl.innerHTML = artists;
+				}
+				
+				// Change website title to include current playing song + artist
+				if(song !== "No data" && artists !== "No data"){
+					document.title = song + " by " + artists + " | Anone, anone! ~";
+				}else if(song !== "No data"){
+					document.title = song + " | Anone, anone! ~";
+				}else{
+					document.title = "Anone, anone! ~";
 				}
 				
 			}
@@ -89,9 +134,6 @@ class SocketConnection {
 
 const socket = new SocketConnection();
 
-// Wait until document has finished loading before initializing our variables
-document.addEventListener("DOMContentLoaded", function() { startplayer(); }, false);
-
 // Variables for checking if user navigated from iOS or iOS-Safari
 var ua = window.navigator.userAgent;
 var iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
@@ -101,20 +143,21 @@ var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
 // URL link to the raw audio stream, declared outside function so it becomes global
 var OriginalSourceUrl = "";
 
-function startplayer(){
+// Wait until document has finished loading before initializing our variables
+document.addEventListener("DOMContentLoaded", function() { startplayer(); }, false);
 
+function startplayer(){
 	player = document.getElementById("music-player");
 
-	// Music player controls
+	// Volume slider stuff
 	volumeSlider = document.getElementById("volumeSlider");
-	// Get the saved value of the volume control
-	volumeSlider.value = getSavedValue("volumeSlider");
+	volumeSlider.value = getSavedValue("volumeSlider");	// Get the saved value of the volume control
 	changeVolBarColor();
 	change_vol();
 
+	// Music player buttons
 	mute = document.getElementById("mute");
 	muteIcon = document.getElementById("muteIcon");
-
 	playPauseIcon = document.getElementById("playPauseIcon");
 
 	// Used by the music progressbar
@@ -126,7 +169,7 @@ function startplayer(){
 	audioSourceElement = document.querySelector("#audioSource");
 	originalSourceUrl = "https://listen.moe/stream";
 
-	// If iOS then we'll have to use the fallback audio stream as OGG format is not supported there
+	// If iOS then we'll have to use the fallback audio stream as OGG format is not supported on those devices
 	if(iOS || iOSSafari){
 		originalSourceUrl = "https://listen.moe/fallback";
 		audioSourceElement.setAttribute("src", originalSourceUrl);
@@ -138,6 +181,7 @@ function startplayer(){
 
 	// Start the progressbar function 
 	updateInterval = setInterval(playerHeartbeat, 50);
+
 	// If iOS then we don't need to run progressbar function as it doesn't work with fallback audio
 	if(iOS || iOSSafari){
 		document.getElementById("progress").style.width = "100%";
@@ -146,7 +190,8 @@ function startplayer(){
 }
 
 // Music player functions
-function playPause() {
+var playPauseBtn = document.querySelector("#playPause");
+playPauseBtn.addEventListener("click", function(){
 	if(player.currentTime > 0 && !player.paused && !player.ended && player.readyState > 2){
 		pause_aud();
 		playPauseIcon.setAttribute("class", "fas fa-play");
@@ -154,7 +199,7 @@ function playPause() {
 		play_aud();
 		playPauseIcon.setAttribute("class", "fas fa-pause");
 	}
-}
+});
 
 function play_aud() {
 	if(!audioSourceElement.getAttribute("src")){
@@ -172,7 +217,8 @@ function pause_aud() {
 	});
 }
 
-function mute_vol() {
+var muteBtn = document.querySelector("#mute");
+muteBtn.addEventListener("click", function(){
 	if(player.muted){
 		player.muted = false;
 		muteIcon.setAttribute("class","fas fa-volume-up");
@@ -180,11 +226,17 @@ function mute_vol() {
 		player.muted = true;
 		muteIcon.setAttribute("class","fas fa-volume-off");
 	}
-}
+});
 
 function change_vol() {
 	player.volume = volumeSlider.value;
 }
+
+volumeSlider.addEventListener("input", function(){
+	player.volume = volumeSlider.value;
+	changeVolBarColor();
+	saveValue(volumeSlider);
+});
 
 // Used when the stored value is loaded
 function changeVolBarColor() {
@@ -230,11 +282,11 @@ function playerHeartbeat() {
 		// Reset if an song with unknown length (currentSongDuration === 0) finished playing AND the music player is currently playing
 		// Remove the playerIsPlaying check to enable autoplay (have no idea why this works)
 		if(unknownSongPlayed && player.currentTime > 0 && !player.paused && !player.ended && player.readyState > 2){
-			// Adding a 3 second delay before reloading audio to make transition smoother (needs finetuning!)
+			// Adding a 2 second delay before reloading audio to make transition smoother (needs finetuning!)
 			setTimeout(function() {
 				resetAudioStream();
 				tempSongDuration = currentSongDuration;
-			}, 3000);
+			}, 2000);
 		}
 
 		unknownSongPlayed = false;
@@ -249,13 +301,13 @@ function playerHeartbeat() {
 			resetAudioStream();
 		}
 
-		// Reset if song duration changes, which means a new song is playing, AND when the previous song has fully played out
+		// Reset if song duration changes, which means a new song is playing AND when the previous song has fully played out
 		if(tempSongDuration !== currentSongDuration && player.currentTime >= tempSongDuration){
 			resetAudioStream();
 			tempSongDuration = currentSongDuration;
 		}
 	}
-	// Error handling in case something unexpected happens
+	// Error handling in case something unexpected happens (or if a song with unknown length is playing)
 	else{
 		progressBar.style.width = "100%";
 		unknownSongPlayed = true;
