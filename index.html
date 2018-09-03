@@ -12,8 +12,8 @@
 	<!-- Font Awesome, using it for icons -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
-	<!-- Lato Font, custom text font -->
-	<link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+	<!-- Custom text font -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
 
 	<!-- Stylesheet for the webpage and the things in it (eg. music player buttons) -->
 	<link rel="stylesheet" type="text/css" href="style.css">
@@ -96,7 +96,7 @@
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			<div class="modal-body">
-				<p>This is a web application that functions as a radio website. It plays a raw audio stream provided by <a href="https://listen.moe" target="_blank">LISTEN.moe</a> and gets JSON data about the playing song's name, artist, duration etc. from their WebSocket. Usage of their API has been deprecated on our end to keep our music player simple. For more details about the inner workings, you can visit their documentation page.</p>
+				<p>This is a web application that functions as a radio website. It plays a raw audio stream provided by <a href="https://listen.moe" target="_blank">LISTEN.moe</a> and gets JSON data about the playing song's name, artist, duration etc. from their WebSocket. For more details about the inner workings, you can visit their documentation page.</p>
 
 				<p>I don't claim any copyright and neither is it in my intention to profit from this work. I made this for educational purposes and private use, if there are any problems please contact me so we can work it out.</p>
 			</div>
@@ -138,24 +138,23 @@
 			<p id="now-playing">No data</p> <!-- Current song playing -->
 
 			<!-- Music player progressbar, it has inline-styling so we can manipulate it with Javascript -->
-			<div id="progress" style="height: 10px; width: 0%; border-radius: 0px 5px 5px 0px; background: #ff015b; margin: 10px 0px 10px 0px;"></div>
+			<div id="progress" style="height: 2px; width: 0%; border-radius: 0px 5px 5px 0px; background: #30a9ed; margin: 10px 0px 10px 0px;"></div>
 				
 			<!-- The audio source aka the raw stream from LISTEN.moe -->
 			<audio id="music-player">
-				<source id="audioSource" src="https://listen.moe/stream" type="audio/ogg; codecs=vorbis">
+				<source id="audioSource" src="" type="audio/ogg; codecs=vorbis">
 			</audio>
 
 			<!-- Custom audio controls for the music player -->
 			<div class="music-player-controls">
-
 				<!-- Play/pause button -->
-				<button id ="playPause" onclick ="playPause()"><i id="playPauseIcon" class="fas fa-play"></i></button>
+				<button id ="playPause"><i id="playPauseIcon" class="fas fa-play"></i></button>
 
 				<!-- Mute button -->
-				<button id="mute" onclick="mute_vol()"><i id="muteIcon" class="fas fa-volume-up"></i></button>
+				<button id="mute"><i id="muteIcon" class="fas fa-volume-up"></i></button>
 
 				<!-- Volume control -->
-				<input id="volumeSlider" class="slider" type="range" oninput="change_vol(); saveValue(this);" min="0" max="1" step="0.01" value="0.7">
+				<input id="volumeSlider" class="slider" type="range" min="0" max="1" step="0.01" value="0.7">
 			</div>
 		</div>
 	</div>
@@ -168,35 +167,6 @@
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
-<!-- JQuery code for changing the navbar icon sizes and coloring the range of the volume slider -->
-<script>
-	$(window).on('resize', function() {
-  		var win = $(this);
-  		// 1007px is the breakpoint for our navbar collapse
-  		if (win.width() < 1008) {
-  			$('#homeBtn').removeClass('fa-2x');
-    		$('#homeBtn').addClass('fa-3x');
-
-    		$('#menuBtn').removeClass('fa-lg');
-    		$('#menuBtn').addClass('fa-3x');
-  		} else {
-    		$('#homeBtn').removeClass('fa-3x');
-    		$('#homeBtn').addClass('fa-2x');
-
-    		$('#menuBtn').removeClass('fa-3x');
-    		$('#menuBtn').addClass('fa-lg');
-  		}
-	});
-
-	$('#volumeSlider').on('input', function(){
-		var string1 = "linear-gradient(to right, #ff015b 0%, #ff015b ";
-		var string2 = "%, #fff ";
-		var string3 = "%, #fff 100%)";
-		var combinedString = string1 + this.value*100 + string2 + this.value*100 + string3;
-		$(this).css("background", combinedString);
-	});
-</script>
 
 <!-- Popper.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
