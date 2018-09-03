@@ -179,7 +179,7 @@ function startplayer(){
 	}
 
 	// Start the progressbar function 
-	updateInterval = setInterval(playerHeartbeat, 50);
+	updateInterval = setInterval(playerHeartbeat, 500);
 
 	// If iOS then we don't need to run progressbar function as it doesn't work with fallback audio
 	if(iOS || iOSSafari){
