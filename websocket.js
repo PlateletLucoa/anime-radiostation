@@ -5,6 +5,15 @@ let ws;
 var currentSongDuration;
 var tempSongDuration;
 
+// Helper function for checking if an array does not exist, is not an array, or is empty
+// Returns true if the array exists, otherwise returns false
+function canReadArray(arr){
+	if(!Array.isArray(arr) || !arr.length){
+		return false;
+	}
+	return true;
+}
+
 class SocketConnection {
 	constructor() {
 		this.sendHeartbeat = null;
@@ -61,7 +70,7 @@ class SocketConnection {
 
 					// Experimental, I'm not 100% sure how data.song.sources work. 
 					// UPDATE: sources is an array with Objects, each object have id, name, nameRomaji and image attributes 
-					if(data.song.sources.length > 0){
+					if(canReadArray(data.song.sources) && data.song.sources.length > 0){
 						song += " [";
 						for(var i = 0; i < data.song.sources.length; i++){
 							var hasSongSourceNameRomaji = data.song.sources[i].nameRomaji !== undefined && data.song.sources[i].nameRomaji !== null;
@@ -85,7 +94,7 @@ class SocketConnection {
 
 				// Code for updating the artist name 
 				var artists = "";
-				if(data.song.artists.length > 1){
+				if(canReadArray(data.song.artists) && data.song.artists.length > 1){
 					for(var i = 0; i < data.song.artists.length; i++){
 						var hasArtistNameRomaji = data.song.artists[i].nameRomaji !== undefined && data.song.artists[i].nameRomaji !== null;
 						var hasArtistName = data.song.artists[i].name !== undefined && data.song.artists[i].name !== null;
@@ -99,7 +108,7 @@ class SocketConnection {
 						}
 					}
 					artists = artists.substr(0, artists.length-2);
-				}else{
+				}else if(canReadArray(data.song.artists)){
 					if(data.song.artists[0].nameRomaji !== undefined && data.song.artists[0].nameRomaji !== null){
 						artists = data.song.artists[0].nameRomaji;
 					}else if(data.song.artists[0].name !== undefined && data.song.artists[0].name !== null){
@@ -107,6 +116,8 @@ class SocketConnection {
 					}else{
 						artists = "No data";
 					}
+				}else{
+					artists = "No data";
 				}
 				artistLbl.innerHTML = artists;
 				
