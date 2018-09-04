@@ -122,10 +122,11 @@ class SocketConnection {
 				artistLbl.innerHTML = artists;
 				
 				// Change website title to include current playing song + artist
+				// Note that if we have a song source then we don't want to include it, therefore we use data.song.title
 				if(song !== "No data" && artists !== "No data"){
-					document.title = song + " by " + artists + " | Anone, anone! ~";
+					document.title = data.song.title + " by " + artists + " | Anone, anone! ~";
 				}else if(song !== "No data"){
-					document.title = song + " | Anone, anone! ~";
+					document.title = data.song.title + " | Anone, anone! ~";
 				}else{
 					document.title = "Anone, anone! ~";
 				}
